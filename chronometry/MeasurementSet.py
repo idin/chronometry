@@ -18,10 +18,14 @@ class MeasurementSet:
 		return '\n'.join([f'{name} - {measurement}' for name, measurement in self._measurements.items()])
 
 	def __getstate__(self):
-		return self._measurements
+		return self._measurements, self._start_times, self._end_times
 
 	def __setstate__(self, state):
-		self._measurements = state
+		if len(state) == 3:
+			self._measurements, self._start_times, self._end_times = state
+		else:
+			self._measurements = state
+			self._start_times = self._end_times = {}
 
 	def __hashkey__(self):
 		return (self.__class__.__name__, self._measurements)
