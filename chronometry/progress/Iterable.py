@@ -41,6 +41,7 @@ class Iterable:
 			return result
 		except IndexError:
 			self._idx = 0
+			self._progress_bar.show(amount=progress_amount + 1, text=self._text)
 			raise StopIteration
 
 
@@ -54,4 +55,3 @@ def iterate(iterable, progress_bar=None, text='', echo=1, echo_items=False):
 	:rtype: Iterable
 	"""
 	return Iterable(inner=list(iterable), progress_bar=progress_bar, text=text, echo=echo, echo_items=echo_items)
-

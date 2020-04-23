@@ -44,7 +44,7 @@ class ProgressBar:
 		self._amount = None
 		self._safe_total = total
 		self._bar_characters = bar_characters or self.FILLING_SQUARE
-
+		self._shown = 0
 		self.amount = 0
 
 		self._bar_length = bar_length
@@ -318,14 +318,13 @@ class ProgressBar:
 		else:
 			self.amount = amount
 
+		if self._echo:
+			time_now = datetime.now()
+			if self._shown < 1 or elapsed(start_time=self._display_time, end_time=time_now) > self._display_wait or self.amount >= self.total:
+				self._shown += 1
+				self._display_time = time_now
 
-
-		time_now = datetime.now()
-		if elapsed(start_time=self._display_time, end_time=time_now) > self._display_wait or self.amount >= self.total:
-			self._display_time = time_now
-
-			string = ''
-			if self._echo > 0:
+				string = ''
 				try:
 					string += self._animation_string
 
@@ -353,25 +352,19 @@ class ProgressBar:
 					self._max_lengths['with_colour'] = max(self._max_lengths['with_colour'], len(string))
 					string = string.ljust(self._max_lengths['with_colour'])
 
-
 				except Exception as e:
 					self.write(string=f'progress bar error: {e}')
 					raise e
 
-			if self.amount >= self.total:
-				self.complete()
+				if self.amount >= self.total:
+					self.complete()
 
-			if self._echo:
 				if self._completed:
 					if self._disappear:
 						self.write(string=' ' * self._max_lengths['with_colour'] + ' ')
-						#self.write(string=' '*15)
-						#stdout.write("\033[F")  # back to previous line
-						#stdout.write("\033[K")  # clear line
-						#print('', end="")
+
 					else:
 						self.write(string=string)
-						#stdout.flush()
 
 					if self._next_line:
 						print('')
