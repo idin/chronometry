@@ -11,3 +11,4 @@ from .MeasurementSet import MeasurementSet
 from .measure import measure
 from .convert_string_to_date import convert_string_to_date
 from .parse_date import parse_date
+from .Estimator import Estimator
