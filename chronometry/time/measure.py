@@ -1,5 +1,5 @@
-from .Timer import Timer
 
+from chronometry.time.Timer import Timer
 import functools
 
 

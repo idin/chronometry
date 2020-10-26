@@ -9,9 +9,9 @@ class NumberPart:
 		if type(value) is not int: raise TypeError("value should be int")
 		if type(start) is not int: raise TypeError("start should be int")
 
-		self._base=base
-		self._value=value
-		self._start=start
+		self._base = base
+		self._value = value
+		self._start = start
 
 		if digits is None:
 			if self.base is None:

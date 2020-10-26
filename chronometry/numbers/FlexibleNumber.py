@@ -58,11 +58,18 @@ class FlexibleNumber:
 		"""
 		return self.parts[self.labels.index(label)]
 
+	def get_value(self, label):
+		"""
+		:type label: str
+		:rtype: int
+		"""
+		return self.get(label=label).value
+
 	def set(self, value, label):
 		self.parts[self.labels.index(label)].value = value
 		self.adjust()
 
-	def add(self, value = 0, label = None):
+	def add(self, value=0, label=None):
 		if label is None:
 			label = self.labels[-1]
 		self.parts[self.labels.index(label)].value += value
@@ -132,7 +139,7 @@ class FlexibleNumber:
 		parts = []
 		for i in range(self.len()):
 			part = self.parts[i] + other.parts[i]
-			part.adjust()
+			part.explore()
 			parts.append(part)
 
 		return  self.__class__(parts=parts, labels=self.labels, sep=self._sep)
@@ -144,7 +151,7 @@ class FlexibleNumber:
 		parts = []
 		for i in range(self.len()):
 			part = self.parts[i] - other.parts[i]
-			part.adjust()
+			part.explore()
 			parts.append(part)
 
 		return  self.__class__(parts=parts, labels=self.labels, sep=self._sep)

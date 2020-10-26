@@ -1,6 +1,9 @@
 import re
-from .numbers import FlexibleNumber, NumberPart
-from .to_quarter import get_quarter
+from ..numbers import FlexibleNumber, NumberPart
+from .get_quarter import get_quarter
+from .get_first_day_of_month import get_first_day_of_month
+from .get_first_day_of_month import get_last_day_of_month
+import datetime
 
 
 class YearQuarter(FlexibleNumber):
@@ -35,11 +38,17 @@ class YearQuarter(FlexibleNumber):
 
 	@property
 	def year(self):
-		return self.get('year')
+		return self.get_value('year')
 
 	@property
 	def quarter(self):
-		return self.get('quarter')
+		return self.get_value('quarter')
+
+	def __str__(self):
+		return f'{self.year}Q{self.quarter}'
+
+	def __repr__(self):
+		return self.__str__()
 
 	@year.setter
 	def year(self, year):
@@ -58,3 +67,24 @@ class YearQuarter(FlexibleNumber):
 	def to_years(self):
 		return self.get_total(label='year')
 
+	@property
+	def first_month(self):
+		return self.last_month - 2
+
+	@property
+	def last_month(self):
+		return self.quarter * 3
+
+	@property
+	def first_day(self):
+		"""
+		:rtype: datetime.date
+		"""
+		return get_first_day_of_month(year=self.year, month=self.first_month)
+
+	@property
+	def last_day(self):
+		"""
+		:rtype: datetime.date
+		"""
+		return get_last_day_of_month(year=self.year, month=self.last_month)

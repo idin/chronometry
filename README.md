@@ -20,19 +20,29 @@ and gives more weight to larger numbers for the training.
 from chronometry import Estimator
 from time import sleep
 
-def multiply_by_2(x):
-    sleep((x ** 2 + 0.1 * x ** 3 + 1) * 0.00001)
-    return x * 2
+def multiply_with_no_delay(x, y):
+    return (x ** 2 + 0.1 * x ** 3 + 1) * 0.00001 + y * 0.001
 
-estimator = Estimator(function=multiply_by_2, polynomial_degree=3) 
+def multiply(x, y):
+    sleep_time = multiply_with_no_delay(x, y)
+    if sleep_time > 30:
+        raise
+    sleep(sleep_time)
+    if y == 6:
+        sleep(12)
+    elif 7 < y < 15:
+        raise Exception()
+    return sleep_time
+
+estimator = Estimator(function=multiply, polynomial_degree=3, timeout=5)
 # the `unit` argument chooses the unit of time to be used. By default unit='s'
 
-estimator.estimate(x=10000, max_time=20)
-
+estimator.auto_explore()
+estimator.predict_time(x=10000, y=10000)
 ```
-The above code runs for about *6.2* seconds and then estimates that 
-`multiply_by_2(10000)` will take *1002371.7* seconds which is only slightly
-larger than the correct number: *1001000*.
+The above code runs for about *53* seconds and then estimates that 
+`multiply(10000, 10000)` will take *1002371.7* seconds which is only slightly
+smaller than the correct number: *1001010* seconds.
 
 `max_time` is the maximum time allowed for the estimate function to run.
 
@@ -41,5 +51,7 @@ you can plot the measurements with the `plot()` method (no arguments needed) whi
 returns a `matplotlib` `AxesSubplot` object and displays it at the same time.
 
 ```python
-estimator.plot()
+estimator.plot('x')
+
+estimator.plot('y')
 ```

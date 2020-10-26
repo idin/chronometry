@@ -1,11 +1,11 @@
 import re
-from .numbers import FlexibleNumber, NumberPart
-from .get_month import get_month_num, get_month_name
+from chronometry.numbers import FlexibleNumber, NumberPart
+from chronometry.date.get_month import get_month_num, get_month_name
 
 
 class YearMonth(FlexibleNumber):
 
-	def __init__(self, x = None, year=None, month=None, date=None, parts=None, sep='-', month_as='num'):
+	def __init__(self, x=None, year=None, month=None, date=None, parts=None, sep='-', month_as='num'):
 		# display_month can be 'num' 'abr' or 'ful'
 		try:
 			year = date.year
@@ -22,12 +22,12 @@ class YearMonth(FlexibleNumber):
 				month = x.month
 			except:
 				x = str(x)
-				if re.match(pattern='^\d{4}.*\d{2}$', string=x):
-					year = int(re.findall(pattern='^\d+', string=x)[0][:4])
-					month = int(re.findall(pattern='\d+$', string=x)[0][-2:])
-				elif re.match(pattern='^\d{4}\W*[a-zA-Z]+$', string=x):
-					year = int(re.match(pattern='^\d+', string=x)[0][:4])
-					month = get_month_num(name=re.search(pattern='[a-zA-Z]+$', string=x)[0])
+				if re.match(pattern=r'^\d{4}.*\d{2}$', string=x):
+					year = int(re.findall(pattern=r'^\d+', string=x)[0][:4])
+					month = int(re.findall(pattern=r'\d+$', string=x)[0][-2:])
+				elif re.match(pattern=r'^\d{4}\W*[a-zA-Z]+$', string=x):
+					year = int(re.match(pattern=r'^\d+', string=x)[0][:4])
+					month = get_month_num(name=re.search(pattern=r'[a-zA-Z]+$', string=x)[0])
 
 		try:
 			year_part = NumberPart(value=year, base=None, digits=4)
@@ -43,8 +43,6 @@ class YearMonth(FlexibleNumber):
 
 		super().__init__(parts=[year_part, month_part], labels=['year', 'month'], sep=sep)
 		self.adjust()
-
-
 
 	@property
 	def year(self):
@@ -62,26 +60,26 @@ class YearMonth(FlexibleNumber):
 	def month(self, month):
 		self.set(value=int(month), label='month')
 
-	def get_monthname(self, abr = False):
+	def get_monthname(self, abr=False):
 		return get_month_name(number=self.month.value, abr=abr)
 
-	def get_year_monthname(self, abr = False):
+	def get_year_monthname(self, abr=False):
 		return str(self.year) + self._sep + self.get_monthname(abr=abr)
 
 	def to_int(self):
 		self.adjust()
-		return self.year.value*100 + self.month.value
+		return self.year.value * 100 + self.month.value
 
 	def to_months(self):
-		return self.get_total(label = 'month')
+		return self.get_total(label='month')
 
 	def to_years(self):
-		return self.get_total(label = 'year')
+		return self.get_total(label='year')
 
 	def __str__(self):
-		if self._month_as== 'num':
+		if self._month_as == 'num':
 			return super().__str__()
-		elif self._month_as== 'abr':
+		elif self._month_as == 'abr':
 			return self.get_year_monthname(abr=True)
 		else:
 			return self.get_year_monthname(abr=False)
@@ -98,7 +96,7 @@ class YearMonth(FlexibleNumber):
 		:type other: YearMonth
 		:rtype: bool
 		"""
-		return self.to_int()==other.to_int()
+		return self.to_int() == other.to_int()
 
 	def __lt__(self, other):
 		return self.to_int() < other.to_int()
@@ -114,5 +112,3 @@ class YearMonth(FlexibleNumber):
 
 	def __ge__(self, other):
 		return self.to_int() >= other.to_int()
-
-

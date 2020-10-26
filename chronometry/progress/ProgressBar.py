@@ -304,15 +304,19 @@ class ProgressBar:
 		else:
 			return self
 
-	def show(self, amount, extra_amount=0, percent=True, bar=True, time=True, text=''):
+	def show(self, amount, total=None, extra_amount=0, percent=True, bar=True, time=True, text=''):
 		"""
 		:type amount: int or float or NoneType
+		:type total: NoneType or float
 		:type extra_amount: int or float or NoneType
 		:type percent: bool
 		:type bar: bool
 		:type time: bool
 		:type text: str
 		"""
+		if total is not None:
+			self.set_total(total=total)
+
 		if amount is not None:
 			self.amount = amount + extra_amount
 		else:

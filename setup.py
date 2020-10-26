@@ -8,7 +8,7 @@ with open(path.join(this_directory, 'README.md'), encoding='utf-8') as f:
 
 setup(
 	name='chronometry',
-	version='2020.4.6.1',
+	version='2020.9.18.2',
 	description='Python library for tracking time and displaying progress bars',
 	long_description=long_description,
 	long_description_content_type='text/markdown',
@@ -17,7 +17,9 @@ setup(
 	author_email='py@idin.ca',
 	license='MIT',
 	packages=find_packages(exclude=("jupyter_tests", ".idea", ".git")),
-	install_requires=['pandas', 'numpy', 'slytherin', 'colouration', 'sklearn'],
+	install_requires=[
+		'pandas', 'numpy', 'slytherin', 'colouration', 'sklearn', 'ravenclaw', 'func-timeout', 'matplotlib'
+	],
 	python_requires='~=3.6',
 	zip_safe=False
 )

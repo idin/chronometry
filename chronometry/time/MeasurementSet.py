@@ -1,7 +1,7 @@
-from .TimeMeasurement import TimeMeasurement
-from .measure import measure
-from .Timer import Timer
-from .get_elapsed import get_elapsed, find_best_unit, convert
+from chronometry.time.TimeMeasurement import TimeMeasurement
+from chronometry.time.measure import measure
+from chronometry.time.Timer import Timer
+from chronometry.time.get_elapsed import get_elapsed, find_best_unit, convert
 
 from pandas import DataFrame, concat
 from numpy import median
