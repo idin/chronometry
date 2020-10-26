@@ -2,3 +2,4 @@ build
 dist
 chronometry.egg-info
 *.lucy
+*.lucy
