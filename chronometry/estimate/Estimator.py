@@ -1,6 +1,6 @@
 
 from slytherin.hash import hash_object
-from slytherin.functions import get_function_arguments
+from slytherin.get_function_arguments import get_function_arguments
 from ravenclaw.preprocessing import Polynomial, Normalizer
 
 from sklearn.linear_model import LinearRegression
